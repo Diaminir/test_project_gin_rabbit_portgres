@@ -29,6 +29,10 @@ func (app *App) HandlerCars(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, dto.NewErrorDTO(err))
 		return
 	}
+	if err := desCar.ValidateForDesiredCar(); err != nil {
+		c.JSON(http.StatusBadRequest, dto.NewErrorDTO(err))
+		return
+	}
 	infoDB, err := app.pg.DbSearch(desCar)
 	// fmt.Println(infoDB)
 	if err != nil {

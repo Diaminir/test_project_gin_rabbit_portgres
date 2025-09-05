@@ -1,6 +1,9 @@
 package dto
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 type DesiredCarDTO struct {
 	Title      string `json:"title"`
@@ -39,4 +42,20 @@ func NewTranferRabbitDTO(carInfo string, price float64) TransferRabbitDTO {
 		CarInfo: carInfo,
 		Price:   price,
 	}
+}
+
+func (d DesiredCarDTO) ValidateForDesiredCar() error {
+	if d.Title == "" {
+		return errors.New("title is empty")
+	}
+	if d.Model == "" {
+		return errors.New("model is empty")
+	}
+	if d.Engine == "" {
+		return errors.New("engine is empty")
+	}
+	if d.Genetation == "" {
+		return errors.New("generation is empty")
+	}
+	return nil
 }
