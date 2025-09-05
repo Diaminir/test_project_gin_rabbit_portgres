@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:latest
@@ -96,6 +94,19 @@ services:
       rabbitmq:
         condition: service_healthy
 
+  data_insertdb:
+    build:
+      context: ./data_insertdb
+      dockerfile: Dockerfile
+    container_name: Data_insertdb
+    networks:
+      - db_network
+      - app_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
 volumes:
   postgres_data:
