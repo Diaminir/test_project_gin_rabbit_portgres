@@ -88,6 +88,14 @@ func (pg *Postgres) DbSearch(c *gin.Context) (pgx.Rows, error) {
 		argPos++
 	}
 
+	searchName := c.DefaultQuery("searchName", "")
+
+	if searchName != "" {
+		conditions = append(conditions, fmt.Sprintf("title ILIKE $%d", argPos))
+		args = append(args, "%"+searchName+"%")
+		argPos++
+	}
+
 	if len(conditions) > 0 {
 		query += " WHERE " + strings.Join(conditions, " AND ")
 	}
